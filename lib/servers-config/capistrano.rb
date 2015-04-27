@@ -1,14 +1,14 @@
 require 'servers-config'
 
 module Capistrano
-  module ServersConfig
+  module ServersGroup
     def self.extend(configuration)
       configuration.load do
         Capistrano::Configuration.instance.load do
           def load_servers(filename)
             ServersConfig.load_config(filename)
             ServersConfig.each_role do |role, hosts|
-              role "_#{role}".to_sym, *hosts
+              role role.to_sym, *hosts
             end
           end
         end
@@ -18,6 +18,6 @@ module Capistrano
 end
 
 if Capistrano::Configuration.instance
-  Capistrano::ServersGroups.extend(Capistrano::Configuration.instance)
+  Capistrano::ServersGroup.extend(Capistrano::Configuration.instance)
 end
 

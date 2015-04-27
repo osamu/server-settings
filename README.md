@@ -26,11 +26,11 @@ First of all, you must define servers and role in YAML
 
 ```yaml
 (rolename):
-    (option_param): (option_value)
-    (...)
-    hosts:
-      - host1
-      - host2
+  (option_param): (option_value)
+  (...)
+  hosts:
+    - host1
+    - host2
 ```
 
 ### For Dalli
@@ -107,7 +107,7 @@ end
 ```
 
 ```ruby
-puts ServersConfig.memcached_servers.with_format("%host:%port")
+puts ServersConfig.memcached_servers.to_a
 
 ```
 ## Contributing

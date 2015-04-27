@@ -24,7 +24,7 @@ class ServersConfig
 
   def method_missing(name, *args, &block)
     key = name.to_s
-    raise "Missing server config '#{key}'" unless has_key? key
+    return nil  unless has_key? key
     @roles[key]
   end
 
@@ -47,7 +47,7 @@ class ServersConfig
 
     def method_missing(name, *args, &block)
       key = name.to_s
-      raise "Missing config '#{key}'" unless @config.has_key? key
+      return nil unless @config.has_key? key
       @config[key]
     end
 
@@ -86,7 +86,6 @@ class ServersConfig
           end
         end
       end
-      return @config
     end
 
     def hosts
@@ -105,6 +104,7 @@ class ServersConfig
           config[key] = value
         end
       end
+      return @config
     end
 
   end
@@ -122,8 +122,8 @@ class ServersConfig
     end
 
     def each_role
-      @servers_config.each do |role, hosts|
-        yield(role, hosts)
+      @servers_config.each do |role, config|
+        yield(role, config.hosts)
       end
     end
 

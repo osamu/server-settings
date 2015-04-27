@@ -30,17 +30,26 @@ EOF
   end
 
   describe "role accessor" do
-    it 'return array of hosts corresponds to role' do
-      ServersConfig.load_from_yaml(server_config)
-      expect(ServersConfig.role1.to_a).to eq(["1.1.1.1", "2.2.2.2"])
+    context "exist role" do
+      it 'return array of hosts corresponds to role' do
+        ServersConfig.load_from_yaml(server_config)
+        expect(ServersConfig.role1.to_a).to eq(["1.1.1.1", "2.2.2.2"])
+      end
+    end
+
+    context "not exist role" do
+      it 'return array of hosts corresponds to role' do
+        ServersConfig.load_from_yaml(server_config)
+        expect(ServersConfig.not_found_role).to be_nil
+      end
     end
   end
 
   describe "each role" do
     it 'can iterate each server' do
       ServersConfig.load_from_yaml(server_config)
-      expect { |b|  ServersConfig.each_role(&b) }.to  yield_successive_args([ "role1", ServersConfig::Config],
-                                                                            [ "role2", ServersConfig::Config])
+      expect { |b|  ServersConfig.each_role(&b) }.to  yield_successive_args([ "role1", Array],
+                                                                            [ "role2", Array])
     end
   end
 
