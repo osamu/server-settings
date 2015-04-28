@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 require 'yaml'
-require "servers-config/version"
-require "servers-config/role"
+require "server-settings/version"
+require "server-settings/role"
 
-class ServersConfig
+class ServerSettings
 
   def initialize
     @roles = {}

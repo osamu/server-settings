@@ -1,4 +1,4 @@
-class ServersConfig
+class ServerSettings
 
   class Role
     attr_reader :name, :config

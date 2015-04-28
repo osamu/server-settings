@@ -1,6 +1,6 @@
-# ServersConfig
+# ServerSettings
 
-ServersConfiguration is useful configuration scheme for any where.
+ServerSettings is useful configuration scheme for any where.
 
 
 ## Installation
@@ -8,7 +8,7 @@ ServersConfiguration is useful configuration scheme for any where.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'servers-config'
+gem 'server-settings'
 ```
 
 And then execute:
@@ -17,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install servers-config
+    $ gem install server-settings
 
 ## Usage
 
@@ -44,9 +44,9 @@ memcached_servers:
 ```
 
 ```ruby
-ServersConfig.load_config("config/production/server-config.yaml")
+ServerSettings.load_config("config/production/server-config.yaml")
 
-ActiveSupport::Cache::DalliStore.new ServersConfig.memcached_servers.with_format("%host:%port"), options
+ActiveSupport::Cache::DalliStore.new ServerSettings.memcached_servers.with_format("%host:%port"), options
 
 ```
 
@@ -60,7 +60,7 @@ redis_endpoint:
 When hosts have single record, host accessor return string value
 instend of Array.
 ```
-Resque.redis = ServersConfig.redis_endpoint.with_format("%host:%port")
+Resque.redis = ServerSettings.redis_endpoint.with_format("%host:%port")
 
 ```
 ### For ActiveRecord DB
@@ -84,30 +84,30 @@ database:
 ```
 
 ```ruby
-ServersConfig.load_config("config/production/server-config.yaml")
+ServerSettings.load_config("config/production/server-config.yaml")
 
-ActiveRecord::Base.configurations[:development]  = ServersConfig.database.configurations
+ActiveRecord::Base.configurations[:development]  = ServerSettings.database.configurations
 ```
 
 ### For Capistrano
 ```ruby
-require  'servers-config/capistrano'
+require  'server-settings/capistrano'
 
-load_servers("config/production/servers-config.yaml")
+load_servers("config/production/server-settings.yaml")
 
 ```
 
 ## For other application configuration
 
 ```ruby
-ServersConfig.load_config("config/production/server-config.yaml")
-ServersConfig.each_role do |role, config|
+ServerSettings.load_config("config/production/server-config.yaml")
+ServerSettings.each_role do |role, config|
   puts "#{role}, #{config.hosts}"
 end
 ```
 
 ```ruby
-puts ServersConfig.memcached_servers.to_a
+puts ServerSettings.memcached_servers.to_a
 
 ```
 ## Contributing

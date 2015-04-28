@@ -1,4 +1,4 @@
-require 'servers-config'
+require 'server-settings'
 require 'pp'
 
 yaml =<<EOF
@@ -31,23 +31,23 @@ database:
 EOF
 
 # Load Configuration
-ServersConfig.load_from_yaml(yaml)
+ServerSettings.load_from_yaml(yaml)
 
 # Define Host format
-#ServersConfig.host_format[:default] = "%host:%port"
-#ServersConfig.host_format[:redis] = "redis://%host:%port"
+#ServerSettings.host_format[:default] = "%host:%port"
+#ServerSettings.host_format[:redis] = "redis://%host:%port"
 
 # Role and Host accessor
-p ServersConfig.redis.hosts
-p ServersConfig.app.with_format("%protocol://%user@%host:%port")
+p ServerSettings.redis.hosts
+p ServerSettings.app.with_format("%protocol://%user@%host:%port")
 
 # Role Iterator
-ServersConfig.each_role do |role, role_config|
+ServerSettings.each_role do |role, role_config|
   puts "#{role}"
   puts role_config
 end
 
 # Database Configuration
-p ServersConfig.database.hosts
+p ServerSettings.database.hosts
 
 

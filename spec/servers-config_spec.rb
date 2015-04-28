@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'servers-config'
+require 'server-settings'
 
-describe ServersConfig do
+describe ServerSettings do
   let (:server_config) {
           yaml_text = <<-EOF
 role1:
@@ -23,7 +23,7 @@ EOF
     end
 
     it 'can load yaml file' do
-      ServersConfig.load_config("config.yml")
+      ServerSettings.load_config("config.yml")
     end
 
     ## TODO check invalid yaml
@@ -32,31 +32,31 @@ EOF
   describe "role accessor" do
     context "exist role" do
       it 'return array of hosts corresponds to role' do
-        ServersConfig.load_from_yaml(server_config)
-        expect(ServersConfig.role1.to_a).to eq(["1.1.1.1", "2.2.2.2"])
+        ServerSettings.load_from_yaml(server_config)
+        expect(ServerSettings.role1.to_a).to eq(["1.1.1.1", "2.2.2.2"])
       end
     end
 
     context "not exist role" do
       it 'return array of hosts corresponds to role' do
-        ServersConfig.load_from_yaml(server_config)
-        expect(ServersConfig.not_found_role).to be_nil
+        ServerSettings.load_from_yaml(server_config)
+        expect(ServerSettings.not_found_role).to be_nil
       end
     end
   end
 
   describe "each role" do
     it 'can iterate each server' do
-      ServersConfig.load_from_yaml(server_config)
-      expect { |b|  ServersConfig.each_role(&b) }.to  yield_successive_args([ "role1", Array],
+      ServerSettings.load_from_yaml(server_config)
+      expect { |b|  ServerSettings.each_role(&b) }.to  yield_successive_args([ "role1", Array],
                                                                             [ "role2", Array])
     end
   end
 
   describe "with_format" do
     it 'can format host string with configuration params' do
-      ServersConfig.load_from_yaml(server_config)
-      expect(ServersConfig.role1.with_format("%host:%port")).to eq(["1.1.1.1:1000", "2.2.2.2:1000"])
+      ServerSettings.load_from_yaml(server_config)
+      expect(ServerSettings.role1.with_format("%host:%port")).to eq(["1.1.1.1:1000", "2.2.2.2:1000"])
     end
   end
 end

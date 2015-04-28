@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'servers-config/version'
+require 'server-settings/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "servers-config"
-  spec.version       = ServersConfig::VERSION
+  spec.name          = "server-settings"
+  spec.version       = ServerSettings::VERSION
   spec.authors       = ["Osamu MATSUMOTO"]
   spec.email         = ["osamu.matsumoto@gmail.com"]
   spec.summary       = %q{Server Configuration logic}

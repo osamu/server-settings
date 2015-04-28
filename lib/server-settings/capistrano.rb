@@ -1,4 +1,4 @@
-require 'servers-config'
+require 'server-settings'
 
 module Capistrano
   module ServersGroup
@@ -6,8 +6,8 @@ module Capistrano
       configuration.load do
         Capistrano::Configuration.instance.load do
           def load_servers(filename)
-            ServersConfig.load_config(filename)
-            ServersConfig.each_role do |role, hosts|
+            ServerSettings.load_config(filename)
+            ServerSettings.each_role do |role, hosts|
               role role.to_sym, *hosts
             end
           end
