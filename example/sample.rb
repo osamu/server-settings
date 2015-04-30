@@ -12,7 +12,9 @@ app:
   user: hogehoge
   port: 8080
   hosts:
-   - 192.168.100.1/user=hoge&port=8080
+   - 192.168.100.1
+   - 192.168.100.2
+   - 192.168.100.3:8000
 
 database:
   :adapter: mysql2
@@ -38,8 +40,8 @@ ServerSettings.load_from_yaml(yaml)
 #ServerSettings.host_format[:redis] = "redis://%host:%port"
 
 # Role and Host accessor
-p ServerSettings.redis.hosts
-p ServerSettings.app.with_format("%protocol://%user@%host:%port")
+p ServerSettings.app.hosts
+p ServerSettings.app.hosts.with_format("%protocol://%user@%host:%port")
 
 # Role Iterator
 ServerSettings.each_role do |role, role_config|

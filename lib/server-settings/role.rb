@@ -8,14 +8,19 @@ class ServerSettings
       @config = load(config)
     end
 
-    def load(config); config; end
+    def load(config)
+      role_options = config.keys.select{|s| s != "hosts"}
+      @settings = Hash[*role_options.map do |option_name|
+                         [ "%#{option_name}", config[option_name].to_s]
+                       end.flatten]
+      if config.has_key?("hosts")
+        config["hosts"]= HostCollection.new(config["hosts"], @settings)
+      end
+      config
+    end
 
     def hosts
       @config["hosts"] if @config.has_key?("hosts")
-    end
-
-    def to_a
-      hosts
     end
 
     def host
@@ -28,20 +33,8 @@ class ServerSettings
       @config[key]
     end
 
-    def settings
-      conf_names = @config.keys.select{|s| s != "hosts"}
-      Hash[*conf_names.map do |conf_name|
-             [ "%#{conf_name}", @config[conf_name].to_s]
-           end.flatten]
-    end
-
     def with_format(format)
-      hosts.map do |host|
-        replacemap = { '%host' => host }.merge(settings)
-        replacemap.inject(format) do |string, mapping|
-          string.gsub(*mapping)
-        end
-      end
+      hosts.with_format(format)
     end
 
   end
@@ -85,5 +78,4 @@ class ServerSettings
     end
 
   end
-
 end

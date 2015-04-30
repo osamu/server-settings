@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'yaml'
 require "server-settings/version"
+require "server-settings/host"
 require "server-settings/role"
 
 class ServerSettings

@@ -37,13 +37,13 @@ EOF
     it 'can override role by another config' do
 
       ServerSettings.load_config("config.yml")
-      expect(ServerSettings.role2.hosts).to eq(["3.3.3.3"])
+      expect(ServerSettings.role2.hosts.with_format("%host")).to eq(["3.3.3.3"])
       allow(IO).to receive(:read).with("config2.yml").and_return(config2)
       allow(File).to receive(:mtime).with("config2.yml").and_return(Time.now)
 
       # load again
       ServerSettings.load_config("config2.yml")
-      expect(ServerSettings.role2.hosts).to eq(["4.4.4.4"])
+      expect(ServerSettings.role2.hosts.with_format("%host")).to eq(["4.4.4.4"])
     end
 
     ## TODO check invalid yaml
@@ -86,7 +86,7 @@ EOF
     context "exist role" do
       it 'return array of hosts corresponds to role' do
         ServerSettings.load_from_yaml(config1)
-        expect(ServerSettings.role1.to_a).to eq(["1.1.1.1", "2.2.2.2"])
+        expect(ServerSettings.role1.hosts.with_format("%host")).to eq(["1.1.1.1", "2.2.2.2"])
       end
     end
 
