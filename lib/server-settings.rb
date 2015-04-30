@@ -4,6 +4,7 @@ require "server-settings/version"
 require "server-settings/role"
 
 class ServerSettings
+  attr_accessor :roles
 
   def initialize
     @roles = {}
@@ -30,8 +31,17 @@ class ServerSettings
   end
 
   class << self
+
     def load_config(file)
+      @loaded_files ||= {}
       load_from_yaml(IO.read(file))
+      @loaded_files[file] = File.mtime(file)
+    end
+
+    def load_config_dir(pattern)
+      Dir.glob(pattern) do |file|
+        load_config(file)
+      end
     end
 
     def load_from_yaml(yaml)
@@ -41,8 +51,20 @@ class ServerSettings
       end
     end
 
+    def reload
+      @loaded_files.each do |file, updated_at|
+        if File.mtime(file) > updated_at
+          load_config(file)
+        end
+      end
+    end
+
+    def roles
+      instance.roles
+    end
+
     def each_role
-      @servers_config.each do |role, config|
+      roles.each do |role, config|
         yield(role, config.hosts)
       end
     end
@@ -53,6 +75,11 @@ class ServerSettings
       else
         RoleDB
       end
+    end
+
+    def destroy
+      @servers_config = nil
+      @loaded_files = nil
     end
 
     private

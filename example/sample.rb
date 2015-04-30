@@ -49,5 +49,3 @@ end
 
 # Database Configuration
 p ServerSettings.database.hosts
-
-
