@@ -32,6 +32,23 @@ First of all, you must define servers and role in YAML
     - host1
     - host2
 ```
+Then, You put intto initilize code
+
+```ruby
+require 'server-settings'
+
+ServerSettings.load_config("path/to/yaml")
+```
+
+If you have many roles and servers, you can split yaml file and put
+into directory.
+
+```ruby
+require 'server-settings'
+
+ServerSettings.load_config_dir("path/to/yamls-dir/*.yml")
+```
+
 
 ### For Dalli
 
