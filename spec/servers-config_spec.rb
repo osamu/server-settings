@@ -60,6 +60,13 @@ EOF
     end
   end
 
+  describe 'availability_zones' do
+    it 'can select availability_zone' do
+      ServerSettings.load_config_dir("spec/test-yaml-az/*.yml")
+      ServerSettings.availability_zones = [ "az-dc1" ]
+    end
+  end
+
   describe "#reload" do
     before do
       ServerSettings.load_config_dir("spec/test-yaml/*.yml")

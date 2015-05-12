@@ -3,11 +3,13 @@ require 'pp'
 
 yaml =<<EOF
 redis:
+  availability_zone: SUZ
   port: 6379
   hosts:
    - 192.168.100.1
 
 app:
+  availability_zone: SUZ
   protocol: http
   user: hogehoge
   port: 8080
@@ -17,6 +19,7 @@ app:
    - 192.168.100.3:8000
 
 database:
+  availability_zone: SUZ
   :adapter: mysql2
   :encoding: utf8
   :reconnect: true
@@ -34,6 +37,7 @@ EOF
 
 # Load Configuration
 ServerSettings.load_from_yaml(yaml)
+ServerSettings.availability_zone = [ "SUZ", "AWS" ]
 
 # Define Host format
 #ServerSettings.host_format[:default] = "%host:%port"

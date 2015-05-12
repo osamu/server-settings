@@ -11,7 +11,7 @@ class ServerSettings
     def load(config)
       role_options = config.keys.select{|s| s != "hosts"}
       @settings = Hash[*role_options.map do |option_name|
-                         [ "%#{option_name}", config[option_name].to_s]
+                         [ option_name, config[option_name].to_s]
                        end.flatten]
       if config.has_key?("hosts")
         config["hosts"]= HostCollection.new(config["hosts"], @settings)

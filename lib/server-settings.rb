@@ -5,7 +5,7 @@ require "server-settings/host"
 require "server-settings/role"
 
 class ServerSettings
-  attr_accessor :roles
+  attr_accessor :roles, :availability_zones
 
   def initialize
     @roles = {}
